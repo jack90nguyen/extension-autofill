@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visible Autofill</title>
+    <style>
+      :root {
+        --bg: #f5f7fa;
+        --panel: #ffffff;
+        --text: #17212f;
+        --muted: #5f6b7a;
+        --accent: #0d6e6e;
+        --accent-hover: #0a5a5a;
+        --border: #dce3ea;
+      }
+
+      body {
+        margin: 0;
+        width: 320px;
+        min-height: 190px;
+        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at 20% 0%, #ffffff 0%, var(--bg) 65%);
+      }
+
+      .card {
+        padding: 14px;
+      }
+
+      h1 {
+        margin: 0 0 6px;
+        font-size: 18px;
+        letter-spacing: 0.2px;
+      }
+
+      p {
+        margin: 0 0 12px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      button {
+        width: 100%;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #ffffff;
+        background: linear-gradient(180deg, var(--accent), #0a6464);
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: linear-gradient(180deg, var(--accent-hover), #084b4b);
+      }
+
+      button:disabled {
+        cursor: wait;
+        opacity: 0.7;
+      }
+
+      .status {
+        margin-top: 10px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--panel);
+        padding: 8px 10px;
+        min-height: 18px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .shortcut {
+        margin-top: 8px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      kbd {
+        border: 1px solid var(--border);
+        border-bottom-width: 2px;
+        border-radius: 5px;
+        padding: 1px 4px;
+        background: #ffffff;
+        font-family: inherit;
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Visible Form Autofill</h1>
+      <p>Fills only visible, in-viewport, interactable fields.</p>
+      <button id="runAutofill" type="button">Autofill Active Page</button>
+      <div class="status" id="status" role="status" aria-live="polite">Ready</div>
+      <div class="shortcut">Shortcut: <kbd>Alt</kbd> + <kbd>F</kbd></div>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
