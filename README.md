@@ -1,4 +1,4 @@
-# Visible Form Autofill (Chrome Extension)
+# OneFill (Chrome Extension)
 
 Chrome Extension (Manifest V3) that autofills only form fields that are currently visible, interactable, and fully inside the viewport.
 
@@ -23,7 +23,7 @@ It is designed for frontend testing on real pages with overlays/modals, and avoi
   1. user dataset (`chrome.storage.sync`)
   2. extension defaults
   3. built-in fallback values
-- Options page dataset editor (names, emails, phones, addresses, companies, urls, paragraph, min/max words)
+- Options page dataset editor (names, emails, phones, addresses, companies, urls, default password, paragraph, min/max words)
 - Duplicate prevention cache per autofill session for key text-like datasets
 - Additional randomized field support:
   - `input[type=date]` random date in the last 5 years
@@ -37,7 +37,7 @@ It is designed for frontend testing on real pages with overlays/modals, and avoi
 |---|---|
 | text | random item from names dataset |
 | email | random email dataset item or generated `firstname.lastname@domain` |
-| password | `123456` |
+| password | configured default password (fallback `123456`) |
 | number | random number in min/max range |
 | checkbox | random boolean (50/50) |
 | radio | one random visible radio in the group |

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Visible Form Autofill",
+  "name": "OneFill",
   "version": "1.0.0",
   "description": "Autofills only visible and interactable form fields for frontend testing.",
   "permissions": ["activeTab", "scripting", "storage"],
@@ -8,7 +8,7 @@
     "service_worker": "background/service-worker.js"
   },
   "action": {
-    "default_title": "Visible Autofill"
+    "default_title": "OneFill"
   },
   "options_page": "options/options.html",
   "content_scripts": [

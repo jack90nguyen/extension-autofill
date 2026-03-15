@@ -193,6 +193,7 @@
             address: ["123 Test Street"],
             phone: ["+10000000000"],
             url: ["https://example.com"],
+            password: "123456",
             paragraph: "test content",
             minWords: 10,
             maxWords: 40
@@ -222,7 +223,7 @@
         }
 
         if (type === "email") return datasets.email[0] || "test@example.com";
-        if (type === "password") return "123456";
+        if (type === "password") return datasets.password || "123456";
         if (type === "number") return "123";
         if (type === "phone") return datasets.phone[0] || "+10000000000";
         if (type === "url") return datasets.url[0] || "https://example.com";

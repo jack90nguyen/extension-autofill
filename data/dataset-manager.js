@@ -134,6 +134,7 @@
       "https://catalog.store",
       "https://status.service.io"
     ],
+    password: "123456",
     paragraph:
       "This sample paragraph is designed to create realistic textarea content for automated interface testing and user acceptance checks. The objective is to produce natural looking text that resembles feedback, project notes, and customer comments without repeating the same phrase every time a field is populated. Teams often review layouts with long messages to verify spacing, line wrapping, scrolling behavior, and truncation rules in cards, dialogs, and responsive forms. During test cycles, engineers also need enough variety in text length to evaluate how validation messages and helper labels behave on different screen sizes. A consistent but expressive paragraph source helps detect overlap issues, hidden controls, and awkward padding in complex components that include tooltips, accordions, and sticky headers. This content intentionally includes plain language and neutral business terms so it fits common workflows such as onboarding, checkout, support, registration, and profile management. When a tester triggers autofill, the generator can select a random window of words from this source to mimic user generated input with different sentence fragments. That variation is useful when observing animation timing, character counters, autosave indicators, and markdown previews in web applications. Product teams can also compare snapshots from visual regression tools to ensure form areas remain stable when content density changes across locales and viewport widths. In practical scenarios, a tester may open a modal, submit a draft, reopen the same modal, and run autofill again to verify that only visible fields are updated while background forms remain untouched. This behavior is especially important in single page applications where multiple routes and detached panels can coexist in memory at the same time. Reliable randomized text also improves exploratory testing for accessibility by exposing focus transitions, announcement order, and contrast boundaries around active inputs. By using a broad paragraph foundation with many words, the extension can generate concise notes for short fields and longer narratives for message boxes without depending on external services. The result is faster manual QA, clearer bug reproduction, and better confidence that forms behave correctly under realistic user input patterns in modern frontend stacks.",
     minWords: 10,
@@ -147,6 +148,7 @@
     address: ["123 Test Street"],
     phone: ["+10000000000"],
     url: ["https://example.com"],
+    password: "123456",
     paragraph: "Test content for textarea field generation.",
     minWords: 8,
     maxWords: 20
@@ -188,6 +190,7 @@
   function normalizeDatasets(raw) {
     const source = raw && typeof raw === "object" ? raw : {};
     const paragraph = typeof source.paragraph === "string" ? source.paragraph.trim() : "";
+    const password = typeof source.password === "string" ? source.password.trim() : "";
 
     const minWords = normalizeWordCount(source.minWords, DEFAULT_DATASETS.minWords);
     const maxWords = normalizeWordCount(source.maxWords, DEFAULT_DATASETS.maxWords);
@@ -199,6 +202,7 @@
       address: toCleanList(source.address),
       phone: toCleanList(source.phone),
       url: toCleanList(source.url),
+      password,
       paragraph,
       minWords: Math.min(minWords, maxWords),
       maxWords: Math.max(minWords, maxWords)
@@ -221,6 +225,7 @@
       address: chooseListValue(user.address, DEFAULT_DATASETS.address, FALLBACK_DATASETS.address),
       phone: chooseListValue(user.phone, DEFAULT_DATASETS.phone, FALLBACK_DATASETS.phone),
       url: chooseListValue(user.url, DEFAULT_DATASETS.url, FALLBACK_DATASETS.url),
+      password: user.password || DEFAULT_DATASETS.password || FALLBACK_DATASETS.password,
       paragraph: user.paragraph || DEFAULT_DATASETS.paragraph || FALLBACK_DATASETS.paragraph,
       minWords: normalizeWordCount(user.minWords, DEFAULT_DATASETS.minWords),
       maxWords: normalizeWordCount(user.maxWords, DEFAULT_DATASETS.maxWords)

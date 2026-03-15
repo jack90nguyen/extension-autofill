@@ -44,7 +44,7 @@ Xay dung va duy tri Chrome Extension (Manifest V3) co luong su dung toi uu:
 5. **Dataset resolution**
    - Merge thu tu: user config -> defaults -> fallback.
 6. **Random value generation**
-   - Ho tro text/email/company/address/phone/url/paragraph/date/number/search/checkbox/radio/select.
+   - Ho tro text/email/company/address/phone/url/password/paragraph/date/number/search/checkbox/radio/select.
 7. **Apply + event dispatch**
    - Set value/checked/selectedIndex.
    - Dispatch `input` va `change` de tuong thich SPA frameworks.
@@ -114,6 +114,7 @@ Xay dung va duy tri Chrome Extension (Manifest V3) co luong su dung toi uu:
   address: string[],
   phone: string[],
   url: string[],
+  password: string,
   paragraph: string,
   minWords: number,
   maxWords: number

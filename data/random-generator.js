@@ -165,7 +165,7 @@
     }
 
     if (type === "password") {
-      return "123456";
+      return datasets.password || "123456";
     }
 
     if (type === "date") {

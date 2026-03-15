@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Visible Autofill Options</title>
+    <title>OneFill Options</title>
     <style>
       :root {
         --bg: #f5f7fa;
@@ -70,9 +70,22 @@
         font-family: "Trebuchet MS", "Segoe UI", sans-serif;
       }
 
+      input[type="text"] {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        font-size: 13px;
+        padding: 8px 10px;
+        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      }
+
       textarea {
         resize: vertical;
-        min-height: 70px;
+        line-height: 1.4;
+        min-height: calc(10 * 1.4em + 16px);
       }
 
       .actions {
@@ -122,7 +135,7 @@
   <body>
     <main class="page">
       <section class="card">
-        <h1>Visible Autofill Options</h1>
+        <h1>OneFill Options</h1>
         <p>
           Configure dataset values used during autofill. Open this page from extension menu:
           right click icon -> Options.
@@ -130,37 +143,42 @@
 
         <div class="row">
           <label for="namesInput">Names (one per line)</label>
-          <textarea id="namesInput"></textarea>
+          <textarea id="namesInput" rows="10"></textarea>
         </div>
 
         <div class="row">
           <label for="emailsInput">Emails (one per line)</label>
-          <textarea id="emailsInput"></textarea>
+          <textarea id="emailsInput" rows="10"></textarea>
         </div>
 
         <div class="row">
           <label for="phonesInput">Phones (one per line)</label>
-          <textarea id="phonesInput"></textarea>
+          <textarea id="phonesInput" rows="10"></textarea>
         </div>
 
         <div class="row">
           <label for="addressesInput">Addresses (one per line)</label>
-          <textarea id="addressesInput"></textarea>
+          <textarea id="addressesInput" rows="10"></textarea>
         </div>
 
         <div class="row">
           <label for="companiesInput">Companies (one per line)</label>
-          <textarea id="companiesInput"></textarea>
+          <textarea id="companiesInput" rows="10"></textarea>
         </div>
 
         <div class="row">
           <label for="urlsInput">URLs (one per line)</label>
-          <textarea id="urlsInput"></textarea>
+          <textarea id="urlsInput" rows="10"></textarea>
+        </div>
+
+        <div class="row">
+          <label for="passwordInput">Default password</label>
+          <input id="passwordInput" type="text" autocomplete="off" />
         </div>
 
         <div class="row">
           <label for="paragraphInput">Paragraph source</label>
-          <textarea id="paragraphInput"></textarea>
+          <textarea id="paragraphInput" rows="10"></textarea>
         </div>
 
         <div class="row">

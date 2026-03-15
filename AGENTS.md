@@ -127,6 +127,7 @@ Use this flow after behavior changes:
 - Preserve object shapes across modules and options/runtime boundaries.
 - Dataset shape:
   - `text`, `email`, `company`, `address`, `phone`, `url`: `string[]`
+  - `password`: `string`
   - `paragraph`: `string`
   - `minWords`, `maxWords`: `number`
 - Normalize unknown input before merge/use.

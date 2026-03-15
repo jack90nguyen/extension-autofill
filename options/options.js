@@ -9,6 +9,7 @@ const datasetFields = {
   address: document.getElementById("addressesInput"),
   company: document.getElementById("companiesInput"),
   url: document.getElementById("urlsInput"),
+  password: document.getElementById("passwordInput"),
   paragraph: document.getElementById("paragraphInput"),
   minWords: document.getElementById("minWordsInput"),
   maxWords: document.getElementById("maxWordsInput")
@@ -23,6 +24,7 @@ const DEFAULT_DATASETS = {
   address: ["123 Main St", "45 Nguyen Hue", "221B Baker Street"],
   phone: ["+84901234567", "+14155550123"],
   url: ["https://example.com", "https://testsite.io", "https://github.com"],
+  password: "123456",
   paragraph:
     "Large paragraph text used for textarea generation. This source text is sliced into random lengths to make UI testing look natural.",
   minWords: 10,
@@ -60,6 +62,7 @@ function setFormValues(datasets) {
   datasetFields.address.value = toLines(datasets.address);
   datasetFields.company.value = toLines(datasets.company);
   datasetFields.url.value = toLines(datasets.url);
+  datasetFields.password.value = datasets.password || "123456";
   datasetFields.paragraph.value = datasets.paragraph || "";
   datasetFields.minWords.value = String(datasets.minWords || 10);
   datasetFields.maxWords.value = String(datasets.maxWords || 40);
@@ -76,6 +79,7 @@ function getFormValues() {
     address: parseLines(datasetFields.address.value),
     company: parseLines(datasetFields.company.value),
     url: parseLines(datasetFields.url.value),
+    password: String(datasetFields.password.value || "").trim() || "123456",
     paragraph: String(datasetFields.paragraph.value || "").trim(),
     minWords: Math.min(minWords, maxWords),
     maxWords: Math.max(minWords, maxWords)
