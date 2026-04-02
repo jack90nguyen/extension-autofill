@@ -44,6 +44,70 @@
     return Number.isFinite(pick) ? pick : indexes[0];
   }
 
+  function hasFieldValue(field) {
+    if (field instanceof HTMLTextAreaElement) {
+      return String(field.value || "").trim().length > 0;
+    }
+
+    if (field instanceof HTMLSelectElement) {
+      if (field.multiple) {
+        return Array.from(field.selectedOptions).some((option) => !shouldSkipSelectOption(option));
+      }
+
+      if (field.selectedIndex < 0) {
+        return false;
+      }
+
+      return !shouldSkipSelectOption(field.options[field.selectedIndex]);
+    }
+
+    if (!(field instanceof HTMLInputElement)) {
+      return false;
+    }
+
+    const rawType = (field.type || "text").toLowerCase();
+    if (rawType === "checkbox") {
+      return field.checked;
+    }
+
+    if (rawType === "radio") {
+      if (!field.name) {
+        return field.checked;
+      }
+
+      const scope = field.form || document;
+      const group = Array.from(scope.querySelectorAll('input[type="radio"]')).filter((el) => {
+        if (!(el instanceof HTMLInputElement)) return false;
+        return el.name === field.name;
+      });
+      return group.some((el) => el.checked);
+    }
+
+    return String(field.value || "").trim().length > 0;
+  }
+
+  function getRadioScopeId(scope, radioState) {
+    if (!scope || !(scope instanceof Node)) {
+      return "global";
+    }
+
+    if (!radioState.scopeIds.has(scope)) {
+      radioState.scopeIds.set(scope, `scope_${radioState.nextScopeId++}`);
+    }
+
+    return radioState.scopeIds.get(scope);
+  }
+
+  function getRadioGroupKey(input, radioState) {
+    if (!input.name) {
+      return `__no_name__${radioState.unnamedIndex++}`;
+    }
+
+    const scope = input.form || document;
+    const scopeId = getRadioScopeId(scope, radioState);
+    return `${scopeId}::${input.name}`;
+  }
+
   function setInputValue(input, radioState, context) {
     const detectedType = context.detectFieldType(input);
     const rawType = (input.type || "text").toLowerCase();
@@ -52,37 +116,49 @@
       return false;
     }
 
+    if (detectedType !== "radio" && hasFieldValue(input)) {
+      return false;
+    }
+
     if (detectedType === "checkbox") {
       const nextChecked = context.randomBoolean();
       if (input.checked !== nextChecked) {
         input.checked = nextChecked;
         dispatchFieldEvents(input);
+        return true;
       }
-      return true;
+      return false;
     }
 
     if (detectedType === "radio") {
-      const groupName = input.name || `__no_name__${radioState.unnamedIndex++}`;
+      const groupName = getRadioGroupKey(input, radioState);
       if (radioState.processedGroups.has(groupName)) {
         return false;
       }
 
       radioState.processedGroups.add(groupName);
       const scope = input.form || document;
-      const group = input.name
+      const allGroup = input.name
         ? Array.from(scope.querySelectorAll('input[type="radio"]')).filter((el) => {
             if (!(el instanceof HTMLInputElement)) return false;
             if (el.name !== input.name) return false;
-            return shouldFill(el);
+            return true;
           })
         : [input];
+
+      if (allGroup.some((el) => el.checked)) {
+        return false;
+      }
+
+      const group = allGroup.filter(shouldFill);
 
       const chosen = group.length ? context.randomItem(group) : input;
       if (chosen && chosen instanceof HTMLInputElement && !chosen.checked) {
         chosen.checked = true;
         dispatchFieldEvents(chosen);
+        return true;
       }
-      return true;
+      return false;
     }
 
     const nextValue = context.generateValue(detectedType, {
@@ -92,8 +168,9 @@
     if (input.value !== nextValue) {
       input.value = nextValue;
       dispatchFieldEvents(input);
+      return true;
     }
-    return true;
+    return false;
   }
 
   function setFieldValue(field, radioState, context) {
@@ -102,6 +179,10 @@
     }
 
     if (field instanceof HTMLTextAreaElement) {
+      if (hasFieldValue(field)) {
+        return false;
+      }
+
       const nextValue = context.generateValue("paragraph", {
         field,
         sessionCache: context.sessionCache
@@ -109,12 +190,17 @@
       if (field.value !== nextValue) {
         field.value = nextValue;
         dispatchFieldEvents(field);
+        return true;
       }
-      return true;
+      return false;
     }
 
     if (field instanceof HTMLSelectElement) {
       if (!field.options.length) {
+        return false;
+      }
+
+      if (hasFieldValue(field)) {
         return false;
       }
 
@@ -126,8 +212,9 @@
       if (field.selectedIndex !== nextIndex) {
         field.selectedIndex = nextIndex;
         dispatchFieldEvents(field);
+        return true;
       }
-      return true;
+      return false;
     }
 
     return false;
@@ -236,7 +323,9 @@
 
     const radioState = {
       processedGroups: new Set(),
-      unnamedIndex: 0
+      unnamedIndex: 0,
+      scopeIds: new WeakMap(),
+      nextScopeId: 0
     };
 
     let filledCount = 0;
